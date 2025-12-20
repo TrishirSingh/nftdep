@@ -1,0 +1,127 @@
+.profile {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  z-index: 1000;
+  border: 1px solid #e5e7eb;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile_account {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--icons-bg-color);
+}
+
+.profile_account_img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--icons-bg-color);
+  object-fit: cover;
+}
+
+.profile_account_info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile_account_info p {
+  color: var(--icons-color);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  text-transform: capitalize;
+}
+
+.profile_account_info small {
+  color: var(--icons-color);
+  font-size: 0.8rem;
+  opacity: 0.7;
+  word-break: break-all;
+}
+
+.profile_menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile_menu_one,
+.profile_menu_two {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile_menu_two {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--icons-bg-color);
+}
+
+.profile_menu_one_item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.profile_menu_one_item:hover {
+  background-color: #f9fafb;
+  transform: translateX(2px);
+}
+
+.profile_menu_one_item svg {
+  font-size: 1.1rem;
+  color: var(--icons-color);
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.profile_menu_one_item p {
+  color: var(--icons-color);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.profile_menu_one_item p a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+.profile_menu_one_item:hover p {
+  color: var(--icons-light-color);
+}
+
+.profile_menu_one_item:hover svg {
+  color: var(--icons-light-color);
+}
+

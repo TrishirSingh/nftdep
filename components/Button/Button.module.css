@@ -1,0 +1,23 @@
+.buttonBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  background: linear-gradient(90deg, #a993fe 0%, #7e61e7 100%);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
