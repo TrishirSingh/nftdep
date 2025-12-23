@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { getUsersCollection } from "../../../lib/db";
-import { authOptions } from "../../auth/[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
