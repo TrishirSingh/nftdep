@@ -1,46 +1,61 @@
 .container {
   min-height: calc(100vh - 200px);
-  padding: 2rem 2rem 4rem 2rem;
+  padding: 2.5rem 2rem 5rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
   width: 90%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  color: #4c5773;
 }
 
 .heroWrapper {
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 .section {
-  margin-top: 3.5rem;
+  margin-top: 5rem;
 }
 
 .section_header {
-  max-width: 720px;
-  margin-bottom: 1.8rem;
+  max-width: 750px;
+  margin-bottom: 2.5rem;
 }
 
 .section_label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #9aa5b1;
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-color);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 1rem;
 }
 
 .section_title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: #1f2933;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 650;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .section_subtitle {
-  font-size: 0.98rem;
-  color: #4c5773;
-  max-width: 640px;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 680px;
+  line-height: 1.75;
+  opacity: 0.88;
+  letter-spacing: 0.01em;
+}
+
+.viewBidsButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 @media (max-width: 768px) {

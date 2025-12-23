@@ -1,28 +1,40 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaUserAlt, FaRegImage, FaUserEdit } from "react-icons/fa";
-import { MdHelpCenter } from "react-icons/md";
-import { TbDownloadOff, TbDownload } from "react-icons/tb";
+import { FaUserAlt, FaRegImage } from "react-icons/fa";
+import { TbDownload } from "react-icons/tb";
 
 //INTERNAL IMPORT
 import Style from './profile.module.css';
 import images from '../../../img'
 
-const Profile = () => {
+const Profile = ({ session, onSignOut }) => {
+  const user = session?.user;
+  
   return (
     <div className={Style.profile}>
       <div className={Style.profile_account}>
-        <Image 
-          src={images.user1} 
-          alt="user profile" 
-          width={50} 
-          height={50} 
-          className={Style.profile_account_img}
-        />
+        {user?.image ? (
+          <Image 
+            src={user.image} 
+            alt={user.name || "user profile"} 
+            width={50} 
+            height={50} 
+            className={Style.profile_account_img}
+            style={{ borderRadius: "50%" }}
+          />
+        ) : (
+          <Image 
+            src={images.user1} 
+            alt="user profile" 
+            width={50} 
+            height={50} 
+            className={Style.profile_account_img}
+          />
+        )}
         <div className={Style.profile_account_info}>
-          <p>Trishir the creator</p>
-          <small>a01234567890okujuj......</small>
+          <p>{user?.name || "User"}</p>
+          <small>{user?.email || ""}</small>
         </div>
       </div>
       <div className={Style.profile_menu}>
@@ -30,34 +42,20 @@ const Profile = () => {
           <div className={Style.profile_menu_one_item}>
             <FaUserAlt />
             <p>
-              <Link href={{ pathname: '/myprofile' }}>My Profile</Link>
+              <Link href="/myprofile">My Profile</Link>
             </p>
           </div>
           <div className={Style.profile_menu_one_item}>
             <FaRegImage />
             <p>
-              <Link href={{ pathname: '/my-items' }}>My Items</Link>
-            </p>
-          </div>
-          <div className={Style.profile_menu_one_item}>
-            <FaUserEdit />
-            <p>
-              <Link href={{ pathname: '/edit-profile' }}>edit </Link>
+              <Link href="/mynfts">My NFTs</Link>
             </p>
           </div>
         </div>
         <div className={Style.profile_menu_two}>
-          <div className={Style.profile_menu_one_item}>
-            <MdHelpCenter />
-            <p>
-              <Link href={{ pathname: "/help" }}>Help</Link>
-            </p>
-          </div>
-          <div className={Style.profile_menu_one_item}>
+          <div className={Style.profile_menu_one_item} onClick={onSignOut} style={{ cursor: "pointer" }}>
             <TbDownload />
-            <p>
-              <Link href={{ pathname: "/disconnect" }}>Disconnect</Link>
-            </p>
+            <p>Sign Out</p>
           </div>
         </div>
       </div>

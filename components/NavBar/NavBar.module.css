@@ -1,12 +1,13 @@
 .navbar{
     width: 100%;
-    padding-block: 1.5rem;
+    padding-block: 1.25rem;
     z-index: 111111111;
     position: sticky;
     top: 0;
-    backdrop-filter: blur(10px);
-    background-color: rgba(236, 240, 243, 0.95);
-    border-bottom: 1px solid var(--icons-bg-color);
+    backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(10, 10, 10, 0.92);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 217, 255, 0.15);
 }
 
 
@@ -33,6 +34,14 @@
 .Logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    pointer-events: auto;
+    text-decoration: none;
+}
+
+.Logo:hover {
+    opacity: 0.8;
 }
 
 .Logo img {
@@ -50,19 +59,20 @@
 .navbar_container_left_box_input_box{
     width: 100%;
     max-width: 500px;
-    border: 1px solid var(--icons-color);
+    border: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
     border-radius: 2rem;
-    background-color: var(--shadow-light-color);
+    background-color: var(--card-bg);
     transition: all 0.3s ease;
 }
 
 .navbar_container_left_box_input_box:hover,
 .navbar_container_left_box_input_box:focus-within {
-    border-color: var(--icons-light-color);
-    box-shadow: 0 2px 8px rgba(76, 87, 115, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.2), inset 0 0 10px rgba(0, 217, 255, 0.05);
+    background: var(--card-hover);
 }
 
 .navbar_container_left_box_input_box input{
@@ -167,13 +177,17 @@
 }
 
 .walletAddress {
-    color: var(--icons-color);
+    color: var(--accent-color);
     font-size: 0.9rem;
     font-weight: 600;
     padding: 0.5rem 1rem;
-    background: var(--icons-bg-color);
+    background: var(--card-bg);
+    border: 1px solid var(--accent-color);
     border-radius: 1rem;
     cursor: default;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
 }
 
 .navbar_container_right_profile_box {
@@ -196,18 +210,14 @@
     border-color: var(--icons-color);
 }
 
-.navbar_container_right_menuBtn {
-    cursor: pointer;
-}
 
-.menuBtn {
-    font-size: 1.5rem;
-    color: var(--icons-color);
-    transition: color 0.2s ease;
-}
-
-.menuBtn:hover {
-    color: var(--icons-light-color);
+.Sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
 }
 
 @media (max-width: 1024px) {
@@ -233,6 +243,12 @@
     
     .navbar_container_right {
         justify-content: space-between;
+    }
+    
+    /* Hide some elements on mobile to make room */
+    .navbar_container_right_discover,
+    .navbar_container_right_help {
+        display: none;
     }
 }
 

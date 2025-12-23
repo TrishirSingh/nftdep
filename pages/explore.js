@@ -23,7 +23,7 @@ const Explore = () => {
       
       if (showType === "opensea") {
         // Fetch real NFTs from OpenSea
-        const items = await openseaApi.fetchPopularNFTs(20);
+        const items = await openseaApi.fetchPopularNFTs(50);
         setNfts(items);
       } else {
         // Fetch NFTs from your marketplace
@@ -34,7 +34,7 @@ const Explore = () => {
       console.error("Failed to load NFTs:", err);
       const errorMsg = err.message || "Failed to load NFTs";
       if (errorMsg.includes("fetchMarketItems")) {
-        setError("Your deployed contract doesn't have the fetchMarketItems function. You need to redeploy the full contract version from Remix that includes fetchMarketItems, fetchMyNFTs, and fetchItemsListed functions.");
+        setError("Your deployed contract doesn't have the fetchMarketItems function. You need to redeploy the full contract version from Remix that includes fetchMarketItems, fetchMyNFTs, and fetchItemsCreated functions.");
       } else if (errorMsg.includes("OpenSea")) {
         setError(`Failed to load NFTs from OpenSea: ${errorMsg}. Trying marketplace NFTs...`);
         // Fallback to marketplace NFTs

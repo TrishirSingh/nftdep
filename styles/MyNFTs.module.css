@@ -55,27 +55,48 @@
 }
 
 .nftCard {
-  background: white;
-  border-radius: 1rem;
+  background: var(--card-bg);
+  border-radius: 1.125rem;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-color);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.nftCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .nftCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 14px 35px rgba(0, 217, 255, 0.18), 0 0 24px rgba(0, 217, 255, 0.08);
+  border-color: var(--accent-color);
+  background: var(--card-hover);
+}
+
+.nftCard:hover::before {
+  opacity: 0.6;
 }
 
 .nftImage {
   width: 100%;
   height: 280px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--main-bg-color) 0%, var(--card-bg) 50%, var(--shadow-dark-color) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .nftImageElement {
@@ -125,16 +146,84 @@
 .priceInput {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--icons-bg-color);
+  border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   font-size: 0.9rem;
-  color: var(--icons-color);
-  background: var(--shadow-light-color);
+  color: var(--text-primary);
+  background: var(--main-bg-color);
+  transition: all 0.3s ease;
 }
 
 .priceInput:focus {
   outline: none;
-  border-color: var(--icons-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1), 0 0 15px rgba(0, 217, 255, 0.1);
+  background: var(--card-bg);
+}
+
+.bidSection {
+  margin-top: 1rem;
+}
+
+.pendingTransfers {
+  background: var(--card-bg);
+  border: 1px solid var(--accent-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.2), 0 0 15px rgba(0, 217, 255, 0.1);
+}
+
+.pendingTransfers h2 {
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+.pendingTransfers > p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.pendingList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pendingItem {
+  background: var(--main-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.pendingItem:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+}
+
+.pendingInfo {
+  flex: 1;
+}
+
+.pendingInfo p {
+  color: var(--icons-color);
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.pendingInfo p strong {
+  color: var(--accent-color);
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -149,6 +238,11 @@
 
   .emptyActions {
     flex-direction: column;
+  }
+
+  .pendingItem {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 

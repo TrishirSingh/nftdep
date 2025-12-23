@@ -2,14 +2,29 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  width: 280px;
-  background: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  background: linear-gradient(135deg, rgba(15, 15, 15, 0.98) 0%, rgba(25, 25, 25, 0.98) 50%, rgba(20, 20, 20, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 
+              0 0 1px rgba(0, 217, 255, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
   z-index: 1000;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   animation: fadeIn 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.profile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.5;
 }
 
 @keyframes fadeIn {
@@ -29,7 +44,19 @@
   gap: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--icons-bg-color);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.profile_account::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.3;
 }
 
 .profile_account_img {
@@ -37,8 +64,15 @@
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--icons-bg-color);
+  border: 2px solid var(--accent-color);
   object-fit: cover;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.profile_account_img:hover {
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+  transform: scale(1.05);
 }
 
 .profile_account_info {
@@ -47,7 +81,7 @@
 }
 
 .profile_account_info p {
-  color: var(--icons-color);
+  color: var(--text-primary);
   font-size: 0.95rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
@@ -55,9 +89,9 @@
 }
 
 .profile_account_info small {
-  color: var(--icons-color);
+  color: var(--text-secondary);
   font-size: 0.8rem;
-  opacity: 0.7;
+  opacity: 0.8;
   word-break: break-all;
 }
 
@@ -77,37 +111,71 @@
 .profile_menu_two {
   margin-top: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 1px solid var(--icons-bg-color);
+  border-top: 1px solid var(--border-color);
+  position: relative;
+}
+
+.profile_menu_two::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.3;
 }
 
 .profile_menu_one_item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
+  position: relative;
+  margin: 0.25rem 0;
+}
+
+.profile_menu_one_item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-color), var(--tech-blue));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .profile_menu_one_item:hover {
-  background-color: #f9fafb;
-  transform: translateX(2px);
+  background: linear-gradient(90deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 217, 255, 0.05) 100%);
+  transform: translateX(4px);
+  padding-left: 1.25rem;
+}
+
+.profile_menu_one_item:hover::before {
+  opacity: 1;
 }
 
 .profile_menu_one_item svg {
   font-size: 1.1rem;
-  color: var(--icons-color);
+  color: var(--text-secondary);
   flex-shrink: 0;
   width: 20px;
+  transition: all 0.3s ease;
 }
 
 .profile_menu_one_item p {
-  color: var(--icons-color);
+  color: var(--text-primary);
   font-size: 0.9rem;
-  font-weight: 400;
+  font-weight: 500;
   margin: 0;
   text-transform: capitalize;
+  transition: all 0.3s ease;
 }
 
 .profile_menu_one_item p a {
@@ -118,10 +186,13 @@
 }
 
 .profile_menu_one_item:hover p {
-  color: var(--icons-light-color);
+  color: var(--accent-color);
+  text-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
 }
 
 .profile_menu_one_item:hover svg {
-  color: var(--icons-light-color);
+  color: var(--accent-color);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 4px rgba(0, 217, 255, 0.4));
 }
 

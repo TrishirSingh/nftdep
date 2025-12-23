@@ -1,9 +1,11 @@
 import React from "react";
+import Link from "next/link";
 import {
   HeroSection,
   Service,
   BigNFTSlider,
 } from "../components/componentsindex";
+import Button from "../components/Button/Button";
 import styles from "../styles/Home.module.css";
 
 const Home = () => {
@@ -34,11 +36,15 @@ const Home = () => {
             Explore trending NFTs on the marketplace
           </h2>
           <p className={styles.section_subtitle}>
-            Scroll through featured items and get a feel for the marketplace
-            experience before we plug into a real blockchain API.
+            Discover real NFTs from OpenSea and our marketplace, all in one place.
           </p>
         </header>
         <BigNFTSlider />
+        <div className={styles.viewBidsButton}>
+          <Link href="/bids">
+            <Button btnName="View Current Bids" />
+          </Link>
+        </div>
       </section>
     </div>
   );

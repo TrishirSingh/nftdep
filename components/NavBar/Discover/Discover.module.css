@@ -2,14 +2,29 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  width: 200px;
-  background: #f8f9fa;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 220px;
+  background: linear-gradient(135deg, rgba(15, 15, 15, 0.98) 0%, rgba(25, 25, 25, 0.98) 50%, rgba(20, 20, 20, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 
+              0 0 1px rgba(0, 217, 255, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
   padding: 0.75rem 0;
   z-index: 1000;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   animation: fadeIn 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.discover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.5;
 }
 
 @keyframes fadeIn {
@@ -24,25 +39,51 @@
 }
 
 .discover_box {
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s;
+  padding: 0.75rem 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+  margin: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.discover_box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-color), var(--tech-blue));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .discover_box:hover {
-  background-color: #f3f4f6;
+  background: linear-gradient(90deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 217, 255, 0.05) 100%);
+  padding-left: 1.5rem;
+  transform: translateX(2px);
+}
+
+.discover_box:hover::before {
+  opacity: 1;
 }
 
 .discover_box a {
-  color: #374151;
+  color: var(--text-primary);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   display: block;
   width: 100%;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .discover_box a:hover {
-  color: #3b82f6;
+  color: var(--accent-color);
+  text-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
 }
 
 /* Footer variant: acts like a simple expanding list, not an absolute dropdown */

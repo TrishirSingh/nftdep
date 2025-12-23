@@ -1,10 +1,23 @@
  .bigNFTSlider {
   width: 100%;
-  margin-top: 3rem;
-  padding: 2.5rem 2rem;
-  border-radius: 1.5rem;
-  background: radial-gradient(circle at top left, #ede9fe, #e0f2fe, #ecf0f3);
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+  margin-top: 3.5rem;
+  padding: 3rem 2.5rem;
+  border-radius: 1.75rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 0 0 1px rgba(0, 217, 255, 0.25);
+  position: relative;
+}
+
+.bigNFTSlider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.4;
 }
 
 .bigNFTSlider_header {
@@ -21,16 +34,16 @@
 }
 
 .bigNFTSlider_header_left p {
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 0.9375rem;
+  font-weight: 650;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--icons-color);
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
 }
 
 .fireIcon {
   font-size: 1.4rem;
-  color: #f97316;
+  color: var(--accent-color);
 }
 
 .bigNFTSlider_header_right {
@@ -39,25 +52,57 @@
   gap: 0.5rem;
 }
 
-.arrowBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background-color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: var(--icons-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* Scrolling container for left-to-right animation */
+.scrollingContainer {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-top: 2rem;
 }
 
-.arrowBtn:hover {
-  background-color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.15);
+.scrollingContent {
+  display: flex;
+  gap: 1.5rem;
+  animation: scrollLeft 60s linear infinite;
+  width: fit-content;
+}
+
+.scrollingContent:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+.retryButton {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--tech-blue) 100%);
+  color: var(--main-bg-color);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 217, 255, 0.4);
 }
 
 .bigNFTSlider_box {
@@ -70,7 +115,7 @@
 .bigNFTSlider_box_left h2 {
   font-size: 2.2rem;
   margin-bottom: 1.5rem;
-  color: var(--icons-color);
+  color: var(--text-primary);
 }
 
 .creatorRow {
@@ -246,31 +291,65 @@
 }
 
 .nftCard {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 1.5rem;
+  width: 300px;
+  min-width: 300px;
+  border-radius: 1rem;
   padding: 1rem;
-  background: linear-gradient(
-    145deg,
-    rgba(15, 23, 42, 0.97),
-    rgba(30, 64, 175, 0.95)
-  );
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.4);
-  color: #e5e7eb;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nftCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3), 0 0 20px rgba(0, 217, 255, 0.1);
 }
 
 .nftImageWrapper {
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   overflow: hidden;
   margin-bottom: 0.9rem;
-  background: radial-gradient(circle at top, #4f46e5, #0f172a);
+  background: var(--main-bg-color);
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--main-bg-color);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .nftImage {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.verifiedBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  color: var(--tech-green);
+  background: var(--card-bg);
+  border-radius: 50%;
+  padding: 0.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .nftCard_footer {
@@ -295,13 +374,13 @@
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  color: #9ca3af;
+  color: var(--text-secondary);
 }
 
 .nftPriceSmall p {
   font-size: 1rem;
   font-weight: 600;
-  color: #e5e7eb;
+  color: var(--accent-color);
 }
 
 @media (max-width: 1024px) {

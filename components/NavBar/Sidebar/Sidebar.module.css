@@ -2,7 +2,8 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: flex-end;
 }
@@ -14,12 +15,13 @@
 
 .sidebar_inner {
   width: min(320px, 80%);
-  background-color: #ecf0f3;
+  background: var(--card-bg);
   padding: 1.5rem 1.25rem 2rem 1.25rem;
-  box-shadow: -12px 0 30px rgba(15, 23, 42, 0.35);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.8), 0 0 1px rgba(0, 217, 255, 0.3);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  border-left: 1px solid var(--accent-color);
 }
 
 .sidebar_closeBtn {
@@ -29,10 +31,21 @@
   margin-bottom: 0.5rem;
 }
 
+.sidebar_logo_link {
+  display: block;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar_logo_link:hover {
+  opacity: 0.8;
+}
+
 .sidebar_logo {
   width: 70px;
   height: 70px;
   object-fit: contain;
+  pointer-events: none;
 }
 
 .sidebar > p,
@@ -64,37 +77,52 @@
 .sideBar_menu {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
-.sideBar_menu_box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  padding: 0.65rem 0;
-  border-bottom: 1px solid var(--icons-bg-color);
+.sideBar_menu_title {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.sideBar_menu_box p {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--icons-color);
+.sideBar_menu_title h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
 }
 
-.sideBar_discover {
-  padding: 0.5rem 0 0.25rem 0.25rem;
+.sideBar_menu_items {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.sideBar_discover p a {
-  font-size: 0.9rem;
-  color: var(--icons-color);
+.sideBar_menu_item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--icons-bg-color);
+  transition: all 0.2s ease;
 }
 
-.sideBar_discover p a:hover {
+.sideBar_menu_item:last-child {
+  border-bottom: none;
+}
+
+.sideBar_menu_item:hover {
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--accent-color);
+}
+
+.sideBar_menu_item a {
+  font-size: 0.95rem;
+  color: var(--icons-color);
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.sideBar_menu_item a:hover {
   color: var(--icons-light-color);
 }
 

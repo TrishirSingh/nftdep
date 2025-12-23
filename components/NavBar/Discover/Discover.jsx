@@ -8,12 +8,8 @@ const Discover = ({ variant = "nav" }) => {
     { name: "Explore", link: "/explore" },
     { name: "Create NFT", link: "/create" },
     { name: "My NFTs", link: "/mynfts" },
-    { name: "Collection", link: "Collection" },
+    { name: "Active Bids", link: "/bids" },
     { name: "Search", link: "search" },
-    { name: "Author Profile", link: "Collection" },
-    { name: "NFT Details", link: "NFT-Details" },
-    { name: "Account Setting", link: "account-setting" },
-    { name: "Blog", link: "blog" },
   ];
 
   const rootClassName =

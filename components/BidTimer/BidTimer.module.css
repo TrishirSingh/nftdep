@@ -1,0 +1,66 @@
+.timer {
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.timerHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.timerHeader span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--icons-light-color);
+}
+
+.timerIcon {
+  font-size: 1.1rem;
+  color: #f97316;
+}
+
+.timerValues {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.timerUnit {
+  text-align: center;
+}
+
+.timerUnit p {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--icons-color);
+}
+
+.timerUnit small {
+  font-size: 0.75rem;
+  color: var(--icons-light-color);
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.timerExpired {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: #fee2e2;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.timerExpired .timerIcon {
+  color: #dc2626;
+}
+

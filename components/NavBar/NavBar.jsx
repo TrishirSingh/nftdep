@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
 import { MdNotifications } from 'react-icons/md'; //notification icon from the md c
 import { BsSearch } from 'react-icons/bs'; //search icon from the bootstrap
-import { CgMenuLeft, CgMenuRight } from 'react-icons/cg';
 import { BrowserProvider } from 'ethers';
 
 import Style from "./NavBar.module.css";
@@ -12,6 +12,13 @@ import Button from "../Button/Button";
 import images from "../../img";
 
 const NavBar = () => {
+  const { data: session, status } = useSession();
+  
+  // Debug: Log session status
+  useEffect(() => {
+    console.log("NavBar Session Status:", status);
+    console.log("NavBar Session Data:", session);
+  }, [status, session]);
   const [discover, setDiscover] = useState(false);
   const [help, setHelp] = useState(false);
   const [notification, setNotification] = useState(false);
@@ -59,20 +66,27 @@ const NavBar = () => {
 
 
   const openSideBar = () => {
-    if(!sideMenu){
-      setSideMenu(true);
+    setSideMenu((prev) => !prev);
+    // Close other menus when opening sidebar
+    if (!sideMenu) {
       setHelp(false);
       setDiscover(false);
       setNotification(false);
       setProfile(false);
-    }else{
-      setSideMenu(false);
     }
   }
 
   const handleSearch = () => {
-    // Handle search functionality here
-    console.log("Searching for:", search);
+    if (search.trim()) {
+      // Navigate to search page with query
+      window.location.href = `/search?q=${encodeURIComponent(search.trim())}`;
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   // Check if wallet is already connected
@@ -105,6 +119,13 @@ const NavBar = () => {
   };
 
   const connectWallet = async () => {
+    // Check if user is signed in first
+    if (!session) {
+      alert("Please sign in with Google first before connecting your wallet.");
+      window.location.href = "/auth/signin";
+      return;
+    }
+
     if (typeof window === "undefined" || !window.ethereum) {
       alert("Please install MetaMask to connect your wallet.");
       return;
@@ -112,13 +133,37 @@ const NavBar = () => {
 
     try {
       setIsConnecting(true);
+      
+      // Wait a bit for MetaMask to be ready
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       const provider = new BrowserProvider(window.ethereum);
       const accounts = await provider.send("eth_requestAccounts", []);
+      
+      if (!accounts || accounts.length === 0) {
+        throw new Error("No accounts found. Please unlock MetaMask and try again.");
+      }
+      
       setAccount(accounts[0]);
       alert("Wallet connected successfully!");
     } catch (err) {
       console.error("Wallet connection error:", err);
-      alert("Failed to connect wallet. Please try again.");
+      
+      // Provide more specific error messages
+      let errorMessage = "Failed to connect wallet. ";
+      if (err.code === 4001) {
+        errorMessage += "Connection request was rejected. Please approve the connection in MetaMask.";
+      } else if (err.code === -32002) {
+        errorMessage += "A connection request is already pending. Please check MetaMask.";
+      } else if (err.message?.includes("No accounts found") || err.message?.includes("unlock")) {
+        errorMessage += "Please unlock MetaMask and try again.";
+      } else if (err.message) {
+        errorMessage += err.message;
+      } else {
+        errorMessage += "Please make sure MetaMask is unlocked and try again.";
+      }
+      
+      alert(errorMessage);
     } finally {
       setIsConnecting(false);
     }
@@ -133,9 +178,9 @@ const NavBar = () => {
     <div className={Style.navbar}>
       <div className={Style.navbar_container}>
         <div className={Style.navbar_container_left}>
-          <div className={Style.Logo}>
+          <Link href="/" className={Style.Logo}>
             <Image src={images.logo} alt="NFT Marketplace Logo" width={100} height={100} />
-          </div>
+          </Link>
           <div className={Style.navbar_container_left_box_input}>
             <div className={Style.navbar_container_left_box_input_box}>
               <input
@@ -143,6 +188,7 @@ const NavBar = () => {
                 placeholder='Search NFTs'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
               <BsSearch onClick={handleSearch} className={Style.search_icon} />
             </div>
@@ -194,25 +240,45 @@ const NavBar = () => {
             </div>
           )}
 
-          {/* Profile */}
-          <div className={Style.navbar_container_right_profile_box}>
-            <div className={Style.navbar_container_right_profile}>
-              <Image src={images.user1} 
-                alt="Profile" 
-                width={40} 
-                height={40} 
-                onClick={() => openProfile()}
-                className={Style.navbar_container_right_profile} />
-              {profile && <Profile />}
+          {/* Profile / Sign In */}
+          {status === "loading" ? (
+            <div className={Style.navbar_container_right_profile_box}>
+              <div className={Style.loading}>Loading...</div>
             </div>
-          </div>
+          ) : session ? (
+            <div className={Style.navbar_container_right_profile_box}>
+              <div className={Style.navbar_container_right_profile}>
+                {session.user?.image ? (
+                  <Image 
+                    src={session.user.image} 
+                    alt={session.user.name || "Profile"} 
+                    width={40} 
+                    height={40} 
+                    onClick={() => openProfile()}
+                    className={Style.navbar_container_right_profile}
+                    style={{ borderRadius: "50%" }}
+                  />
+                ) : (
+                  <Image 
+                    src={images.user1} 
+                    alt="Profile" 
+                    width={40} 
+                    height={40} 
+                    onClick={() => openProfile()}
+                    className={Style.navbar_container_right_profile} 
+                  />
+                )}
+                {profile && <Profile session={session} onSignOut={() => signOut()} />}
+              </div>
+            </div>
+          ) : (
+            <div className={Style.navbar_container_right_profile_box}>
+              <Link href="/auth/signin">
+                <Button btnName="Sign In" />
+              </Link>
+            </div>
+          )}
 
-          {/*Menu Button */}
-          <div className={Style.navbar_container_right_menuBtn}>
-            <CgMenuRight className={Style.menuBtn} 
-              onClick={() => openSideBar()} />
-
-          </div>
         </div>
       </div>
       {/* Sidebar Component only for mobile */}
