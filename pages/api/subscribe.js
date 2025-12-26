@@ -195,7 +195,7 @@ function getThankYouEmailTemplate(email) {
                       <li>🎨 Tips and guides for NFT collectors</li>
                     </ul>
                     <div style="text-align: center; margin: 30px 0;">
-                      <a href="${process.env.NEXTAUTH_URL || 'http://localhost:3000'}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                      <a href="${process.env.NEXTAUTH_URL || 'https:nftdep.vercel.app'}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
                         Explore Marketplace
                       </a>
                     </div>
@@ -212,7 +212,7 @@ function getThankYouEmailTemplate(email) {
                   <td style="padding: 20px 30px; background-color: #f8f9fa; border-radius: 0 0 12px 12px; text-align: center;">
                     <p style="margin: 0; color: #999999; font-size: 12px; line-height: 1.6;">
                       You're receiving this email because you subscribed to our newsletter.<br>
-                      <a href="${process.env.NEXTAUTH_URL || 'http://localhost:3000'}" style="color: #667eea; text-decoration: none;">Visit our website</a>
+                      <a href="${process.env.NEXTAUTH_URL || 'https://nftdep.vercel.app'}" style="color: #667eea; text-decoration: none;">Visit our website</a>
                     </p>
                   </td>
                 </tr>

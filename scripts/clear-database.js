@@ -12,7 +12,7 @@
  */
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'dev-secret-change-in-production';
-const API_URL = process.env.API_URL || 'http://localhost:3000';
+const API_URL = process.env.API_URL || 'https://nftdep.vercel.app';
 
 async function clearDatabase() {
   try {
