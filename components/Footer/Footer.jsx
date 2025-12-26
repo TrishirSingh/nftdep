@@ -65,9 +65,19 @@ const Footer = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message || "Thank you for subscribing! We will keep you updated with the latest NFT collections and marketplace news.");
-        setMessageType("success");
-        setEmail(""); // Clear the input
+        // Check if email was actually sent
+        if (data.emailSent === false) {
+          setMessage(data.message || "Thank you for subscribing! However, we couldn't send a confirmation email. Please check your email address.");
+          setMessageType("error");
+          // Log error details in development
+          if (data.emailError && process.env.NODE_ENV === 'development') {
+            console.error('Email sending failed:', data.emailError);
+          }
+        } else {
+          setMessage(data.message || "Thank you for subscribing! We will keep you updated with the latest NFT collections and marketplace news.");
+          setMessageType("success");
+          setEmail(""); // Clear the input
+        }
       } else {
         setMessage(data.error || "Something went wrong. Please try again.");
         setMessageType("error");

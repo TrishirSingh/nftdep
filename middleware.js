@@ -3,28 +3,36 @@ import { NextResponse } from "next/server";
 
 export async function middleware(req) {
   try {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    // Get the base URL from the request
+    const baseUrl = req.nextUrl.origin;
+    
+    // Get token with proper configuration
+    const token = await getToken({ 
+      req, 
+      secret: process.env.NEXTAUTH_SECRET
+    });
+    
     const { pathname } = req.nextUrl;
 
-  // Pages that require authentication
-  const protectedPages = ["/create", "/mynfts", "/myprofile", "/edit-profile"];
-  
-  // Pages that don't require auth
-  const publicPages = ["/", "/explore", "/search", "/auth/signin"];
+    // Pages that require authentication
+    const protectedPages = ["/create", "/mynfts", "/myprofile", "/edit-profile"];
+    
+    // Pages that don't require auth
+    const publicPages = ["/", "/explore", "/search", "/auth/signin"];
 
-  // If accessing a protected page without auth, redirect to sign in
-  if (protectedPages.some((page) => pathname.startsWith(page))) {
-    if (!token) {
-      const signInUrl = new URL("/auth/signin", req.url);
-      signInUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(signInUrl);
+    // If accessing a protected page without auth, redirect to sign in
+    if (protectedPages.some((page) => pathname.startsWith(page))) {
+      if (!token) {
+        const signInUrl = new URL("/auth/signin", baseUrl);
+        signInUrl.searchParams.set("callbackUrl", pathname);
+        return NextResponse.redirect(signInUrl);
+      }
     }
-  }
 
-  // If already signed in and trying to access sign in page, redirect to home
-  if (pathname === "/auth/signin" && token) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+    // If already signed in and trying to access sign in page, redirect to home
+    if (pathname === "/auth/signin" && token) {
+      return NextResponse.redirect(new URL("/", baseUrl));
+    }
 
     return NextResponse.next();
   } catch (error) {

@@ -29,15 +29,22 @@ export default async function handler(req, res) {
 
     if (existingSubscription) {
       // Send thank you email even if already subscribed
+      let emailResult = null;
       try {
-        await sendThankYouEmail(normalizedEmail);
+        emailResult = await sendThankYouEmail(normalizedEmail);
       } catch (emailError) {
         console.error('Error sending email to existing subscriber:', emailError);
+        console.error('Email error details:', {
+          message: emailError?.message,
+          status: emailError?.status,
+          response: emailError?.response,
+        });
       }
       
       return res.status(200).json({
         message: 'Thank you for subscribing! You are already subscribed to our newsletter.',
         alreadySubscribed: true,
+        emailSent: !!emailResult,
       });
     }
 
@@ -51,16 +58,44 @@ export default async function handler(req, res) {
     await subscriptionsCollection.insertOne(subscription);
 
     // Send thank you email
+    let emailResult = null;
+    let emailError = null;
     try {
-      await sendThankYouEmail(normalizedEmail);
-    } catch (emailError) {
-      console.error('Error sending thank you email:', emailError);
-      // Don't fail the subscription if email fails
+      emailResult = await sendThankYouEmail(normalizedEmail);
+      if (!emailResult) {
+        console.warn('Email sending returned null - check logs for details');
+      }
+    } catch (err) {
+      emailError = err;
+      console.error('Error sending thank you email:', err);
+      // Log the full error for debugging
+      console.error('Email error details:', {
+        message: err?.message,
+        status: err?.status,
+        response: err?.response,
+        email: normalizedEmail,
+      });
+      // Don't fail the subscription if email fails, but log it
+    }
+
+    // If email failed, return a warning but still success
+    if (emailError) {
+      return res.status(200).json({
+        message: 'Thank you for subscribing! However, we encountered an issue sending the confirmation email. Please check your email address or try again later.',
+        success: true,
+        emailSent: false,
+        emailError: process.env.NODE_ENV === 'development' ? {
+          message: emailError?.message,
+          status: emailError?.status,
+          details: emailError?.response,
+        } : undefined,
+      });
     }
 
     return res.status(200).json({
       message: 'Thank you for subscribing! Check your email for a confirmation message.',
       success: true,
+      emailSent: !!emailResult,
     });
   } catch (error) {
     console.error('Subscription error:', error);
@@ -123,26 +158,50 @@ async function sendThankYouEmail(email) {
               console.log('Email ID:', result.id);
               resolve(result);
             } else {
-              console.error('Resend API error:', result);
-              console.error('Status:', res.statusCode);
-              resolve(null); // Don't fail subscription
+              // Log detailed error information
+              console.error('Resend API error response:', JSON.stringify(result, null, 2));
+              console.error('HTTP Status Code:', res.statusCode);
+              console.error('Response headers:', res.headers);
+              
+              // Create error object with details
+              const error = new Error(result?.message || `Resend API error: ${res.statusCode}`);
+              error.status = res.statusCode;
+              error.response = result;
+              error.email = email;
+              
+              // Log specific error types
+              if (result?.message) {
+                console.error('Resend error message:', result.message);
+              }
+              if (result?.errors) {
+                console.error('Resend validation errors:', result.errors);
+              }
+              
+              // Reject with error so we can see what's wrong
+              reject(error);
             }
           } catch (parseError) {
             console.error('Failed to parse response:', parseError);
-            resolve(null); // Don't fail subscription
+            console.error('Raw response data:', data);
+            const error = new Error(`Failed to parse Resend API response: ${parseError.message}`);
+            error.rawResponse = data;
+            reject(error);
           }
         });
       });
 
       req.on('error', (error) => {
         console.error('Request error:', error.message);
-        resolve(null); // Don't fail subscription
+        console.error('Request error details:', error);
+        reject(error);
       });
 
       req.on('timeout', () => {
         req.destroy();
         console.error('Request timeout after 30 seconds');
-        resolve(null); // Don't fail subscription
+        const timeoutError = new Error('Resend API request timed out after 30 seconds');
+        timeoutError.timeout = true;
+        reject(timeoutError);
       });
 
       req.setTimeout(30000); // 30 second timeout
@@ -153,8 +212,10 @@ async function sendThankYouEmail(email) {
     console.error('Failed to send thank you email:', error);
     console.error('Error type:', error?.constructor?.name);
     console.error('Error message:', error?.message);
-    // Don't throw - allow subscription to succeed even if email fails
-    return;
+    console.error('Error stack:', error?.stack);
+    
+    // Re-throw the error so the caller can handle it
+    throw error;
   }
 }
 
